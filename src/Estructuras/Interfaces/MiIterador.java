@@ -1,4 +1,7 @@
 package Estructuras.Interfaces;
 
-public interface MiIterador {
+// Interfaz para el Iterador de todos los TAD
+public interface MiIterador<T> {
+    boolean hasNext();
+    T next();
 }
