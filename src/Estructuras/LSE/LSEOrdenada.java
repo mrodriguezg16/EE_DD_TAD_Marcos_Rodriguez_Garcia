@@ -1,7 +1,7 @@
 package Estructuras.LSE;
 
 public class LSEOrdenada<T extends Comparable<T>> extends ListaSimplementeEnlazada<T> {
-
+//Reescribimos el método add para seguir el orden propio de ordenación de la lista.
     @Override
     public void add(T dato) {
         ElementoSE<T> nuevo = new ElementoSE<>(dato);
