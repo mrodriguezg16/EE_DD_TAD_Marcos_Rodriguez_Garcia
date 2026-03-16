@@ -2,12 +2,15 @@ package Estructuras.LDE;
 
 import Estructuras.Interfaces.Lista;
 import Estructuras.Interfaces.MiIterador;
-
+//Diseño modular: En este planteamiento, hemos decidido plantear los TAD de modo que se pueda reutilizar el código de forma optima
+// Para ello, hemos establecido interfaces para las listas y el iterador, así como la clase Elemento en todos los TAD de forma que todos ellos
+// la usan, cabe destacar que hemos creado 2 clases elemento: una correspondiente con
+//los elementos simplemente enlazados, y otra con los doblemente enlazados (Las pilas y colas tambien usan esas clases).
 public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T> {
     protected ElementoDE<T> primero;
     protected ElementoDE<T> ultimo;
     protected int tamaño;
-
+//constructor vacío
     public ListaDoblementeEnlazada() {
         this.primero = null;
         this.ultimo = null;
@@ -18,16 +21,16 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
     public void add(T dato) {
         ElementoDE<T> nuevo = new ElementoDE<>(dato);
         if (isEmpty()) {
-            primero = ultimo = nuevo;
+            primero = ultimo = nuevo;//pasa a ser un nuevo (y único) elemento de la lista.
         } else {
             // Al ser doble, conectamos el nuevo con el último actual en ambos sentidos
             ultimo.siguiente = nuevo;
             nuevo.anterior = ultimo;
             ultimo = nuevo;
         }
-        tamaño++;
+        tamaño++;//podemos añadir indefinidamente objetos, aumenta de tamaño con cada adición.
     }
-
+//Getter
     @Override
     public T get(T dato) {
         ElementoDE<T> aux = primero;
@@ -37,10 +40,10 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
         }
         return null;
     }
-
+//Método que nos permite borrar elementos de la lista
     @Override
     public T del(T dato) {
-        if (isEmpty()) return null;
+        if (isEmpty()) return null;//si está vacío, queda vacío.
         ElementoDE<T> aux = primero;
 
         while (aux != null) {
@@ -61,26 +64,26 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
                     aux.anterior.siguiente = aux.siguiente;
                     aux.siguiente.anterior = aux.anterior;
                 }
-                tamaño--;
+                tamaño--;//Disminuye su tamaño
                 return aux.dato;
             }
             aux = aux.siguiente;
         }
         return null;
     }
-
+//Método que detecta si la lista está vacía.
     @Override
     public boolean isEmpty() { return primero == null; }
-
+//Método que nos permite ver su tamaño.
     @Override
     public int getSize() { return tamaño; }
-
+//Método que nos permite iterar nuestra lista
     @Override
     public MiIterador<T> getIterador() {
         return new IteradorLDE<>(primero);
     }
 
-    // 1. Vaciar la lista
+    // Método que permite vaciar la lista
     @Override
     public void vaciar() {
         // En una LDE es importante poner ambos a null
@@ -90,7 +93,7 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
         System.out.println("Lista doble vaciada.");
     }
 
-    // 2. Comprobar si existe un dato
+    // Método que permite comprobar si existe un dato en nuestra lista
     @Override
     public boolean existe(T dato) {
         ElementoDE<T> aux = primero;
@@ -103,7 +106,7 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
         return false;
     }
 
-    // 3. Obtener el dato en una posición (0, 1, 2...)
+    // Método que permite obtener el dato en una posición (0, 1, 2...)
     @Override
     public T obtenerPorPosicion(int puesto) {
         if (puesto < 0 || puesto >= tamaño) {
@@ -118,7 +121,7 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
         return aux.dato;
     }
 
-    // 4. Cambiar el dato en una posición específica
+    // Método que permite cambiar el dato en una posición específica
     @Override
     public void cambiarEnPosicion(int puesto, T nuevoDato) {
         if (puesto < 0 || puesto >= tamaño) {
@@ -133,7 +136,7 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
         aux.dato = nuevoDato;
     }
 
-    // 5. Mostrar la lista (con flechas dobles para que se note que es LDE)
+    //Método que permite mostrar la lista (con flechas dobles para que se note que es LDE)
     @Override
     public String mostrarLista() {
         if (isEmpty()) return "Lista doble vacía";
@@ -147,13 +150,13 @@ public class ListaDoblementeEnlazada<T extends Comparable<T>> implements Lista<T
             }
             aux = aux.siguiente;
         }
-        resultado = resultado + " -> null";
+        resultado = resultado;
         return resultado;
     }
-
+//Devuelve la lista del revés, mostrando el final como el inicio y el inicio como el final
     public String mostrarAlReves() {
         if (isEmpty()) return "Vacía";
-        String resultado = "Al revés: null <- ";
+        String resultado = "Al revés: ";
         ElementoDE<T> aux = ultimo; // Empezamos por el final
         while (aux != null) {
             resultado = resultado + aux.dato;
