@@ -1,5 +1,6 @@
 package Estructuras;
-
+//Como digimos en los otros modelos modulares, la clase cola implementa la superclase ElementoDE de las listas doblemente enlazadas
+//De forma que el código se reutiliza en esta interpretación de los TAD.
 public class Cola<T> {
     // Usamos los nodos de la Lista Doble
     private ElementoDE<T> frente; // El primero de la cola
